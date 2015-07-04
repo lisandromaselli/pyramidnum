@@ -80,7 +80,7 @@ private:
 			cin>>val;
 			tabla[cas]->setVal(val);
 		}
-		cout<<(tabla[11]->HijoD)()->MVal();
+		cout<<(tabla[5]->HijoD)()->MVal();
 	}
 public:
 	peiramide();
@@ -94,7 +94,7 @@ bool peiramide::Solve(){
 	return false;*/
 	while(b){
 		b=false;
-		for (size_t i = 0; i < 16; ++i) {
+		for (size_t i = 0; i < 15; ++i) {
 			a=tabla[i]->CanSolve();
 			if(a==2)
 				break;
@@ -120,7 +120,9 @@ peiramide::peiramide(){
 	{
                 casilla=i+rint(log2(i))+1;
 		if(i==11)
-		casilla+=1;
+		casilla++;
+		if(i==3 || i==6)
+		casilla--;
 		tabla[i-1]->setI(tabla[casilla-1]);
                 tabla[i-1]->setD(tabla[casilla]);
 	}
@@ -150,7 +152,6 @@ void peiramide::mostrar(){
 }
 int main() {
 	peiramide c;
-	c.mostrar();
-	/*if(!c.Solve())
-	cout<<"Cannot be Solved";*/
+	if(!c.Solve())
+	cout<<"Cannot be Solved";
 }

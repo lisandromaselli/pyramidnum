@@ -32,29 +32,45 @@ public:
 		der=NULL;
 		izq=NULL;
 	}
-	bool CanSolve();
+	int CanSolve();
 };
-bool celda::CanSolve(){
-	if((HijoD()->MVal())!=0 && (HijoI()->MVal())!=0 && !MVal()){
-		setVal(HijoD()->MVal()+HijoI()->MVal());
-		return true;
+int celda::CanSolve(){
+	int a,b,c;
+	a=HijoD()->MVal();
+	b=HijoI()->MVal();
+	c=MVal();
+	if(a>0 && b>0 && c>0){
+		if(a+b==c)
+			return 0;
+		else
+			return 2;
 	}
-	if((HijoD()->MVal())!=0 && (HijoI()->MVal())==0 && MVal()){
-		HijoI()->setVal(MVal()-(HijoD()->MVal()));
-		return true;
+	else{
+		if(a>0 && b>0 && !c){
+			setVal(a+b);
+			return 1;
+		}
+		else{
+		if(a>0 && !b && c>0){
+			HijoI()->setVal(c-a);
+			return 1;
+		}
+		else
+		if(!a && b>0 && c>0){
+			HijoD()->setVal(c-b);
+			return 1;
+		}
+		else
+			return 0;
+		}
 	}
-	if((HijoD()->MVal())==0 && (HijoI()->MVal())!=0 && MVal()){
-		HijoD()->setVal(MVal()-(HijoI()->MVal()));
-		return true;
-	}
-
 }
 class peiramide {
 private:
 	celda *tabla[21];
 	int n;
 	void ingresarDatos() {
-		int n,cas,val;
+		int cas,val;
 		cout<<"cantidad de datos a ingresar: ";
 		cin>>n;
 		for (size_t i = 0; i < n; ++i) {
@@ -64,7 +80,7 @@ private:
 			cin>>val;
 			tabla[cas]->setVal(val);
 		}
-		tabla[0]->CanSolve();
+		cout<<(tabla[11]->HijoD)()->MVal();
 	}
 public:
 	peiramide();
@@ -73,13 +89,26 @@ public:
 };
 bool peiramide::Solve(){
 	bool b=true;
-	if(n<6)
-	return false;
+	int a;
+	/*if(n<6)
+	return false;*/
 	while(b){
 		b=false;
 		for (size_t i = 0; i < 16; ++i) {
-			b=b|(tabla[i]->CanSolve());
+			a=tabla[i]->CanSolve();
+			if(a==2)
+				break;
+			if(a==1)
+				b=b|true;
 		}
+		if(a==2)
+			break;
+	}
+	if(a==2)
+		cout<<"Cannot be solved";
+	else{
+		mostrar();
+		return true;
 	}
 }
 peiramide::peiramide(){
@@ -87,9 +116,11 @@ peiramide::peiramide(){
 	for (size_t i = 0; i < 21; i++) {
 		tabla[i]=new celda();
 	}
-	for (int i = 1; i <= 16; ++i)
+	for (int i = 1; i <= 15; ++i)
 	{
-                casilla=i+log2(i)+1;
+                casilla=i+rint(log2(i))+1;
+		if(i==11)
+		casilla+=1;
 		tabla[i-1]->setI(tabla[casilla-1]);
                 tabla[i-1]->setD(tabla[casilla]);
 	}
@@ -119,7 +150,7 @@ void peiramide::mostrar(){
 }
 int main() {
 	peiramide c;
-	if(c.Solve())
-        c.mostrar();
-	return 0;
+	c.mostrar();
+	/*if(!c.Solve())
+	cout<<"Cannot be Solved";*/
 }

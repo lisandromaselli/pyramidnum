@@ -29,28 +29,59 @@ public:
 	}
 	celda(){
 		valor=0;
+		der=NULL;
+		izq=NULL;
 	}
+	bool CanSolve();
 };
+bool celda::CanSolve(){
+	if((HijoD()->MVal())!=0 && (HijoI()->MVal())!=0 && !MVal()){
+		setVal(HijoD()->MVal()+HijoI()->MVal());
+		return true;
+	}
+	if((HijoD()->MVal())!=0 && (HijoI()->MVal())==0 && MVal()){
+		HijoI()->setVal(MVal()-(HijoD()->MVal()));
+		return true;
+	}
+	if((HijoD()->MVal())==0 && (HijoI()->MVal())!=0 && MVal()){
+		HijoD()->setVal(MVal()-(HijoI()->MVal()));
+		return true;
+	}
+
+}
 class peiramide {
 private:
 	celda *tabla[21];
+	int n;
 	void ingresarDatos() {
 		int n,cas,val;
 		cout<<"cantidad de datos a ingresar: ";
 		cin>>n;
-		for (size_t i = 0; i < n; i++) {
+		for (size_t i = 0; i < n; ++i) {
 			cout<<endl<<"posicion de casillero: ";
 			cin>>cas;
 			cout<<endl<<"valor del casillero "<<cas<<": ";
 			cin>>val;
 			tabla[cas]->setVal(val);
 		}
+		tabla[0]->CanSolve();
 	}
 public:
 	peiramide();
 	void mostrar();
+	bool Solve();
 };
-
+bool peiramide::Solve(){
+	bool b=true;
+	if(n<6)
+	return false;
+	while(b){
+		b=false;
+		for (size_t i = 0; i < 16; ++i) {
+			b=b|(tabla[i]->CanSolve());
+		}
+	}
+}
 peiramide::peiramide(){
         int casilla;
 	for (size_t i = 0; i < 21; i++) {
@@ -58,8 +89,8 @@ peiramide::peiramide(){
 	}
 	for (int i = 1; i <= 16; ++i)
 	{
-                casilla=i+log2(i+1)+1;
-		tabla[i-1]->setI(tabla[casilla]-1);
+                casilla=i+log2(i)+1;
+		tabla[i-1]->setI(tabla[casilla-1]);
                 tabla[i-1]->setD(tabla[casilla]);
 	}
 	ingresarDatos();
@@ -88,6 +119,7 @@ void peiramide::mostrar(){
 }
 int main() {
 	peiramide c;
+	if(c.Solve())
         c.mostrar();
 	return 0;
 }

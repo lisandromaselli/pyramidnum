@@ -52,13 +52,21 @@ int celda::CanSolve(){
 		}
 		else{
 		if(a>0 && !b && c>0){
-			HijoI()->setVal(c-a);
-			return 1;
+			if(c-a>0){
+				HijoI()->setVal(c-a);
+				return 1;
+			}
+			else
+				return 2;
 		}
 		else
 		if(!a && b>0 && c>0){
-			HijoD()->setVal(c-b);
-			return 1;
+			if(c-b>0){
+				HijoD()->setVal(c-b);
+				return 1;
+			}
+			else
+				return 2;
 		}
 		else
 			return 0;
@@ -80,7 +88,6 @@ private:
 			cin>>val;
 			tabla[cas]->setVal(val);
 		}
-		cout<<(tabla[5]->HijoD)()->MVal();
 	}
 public:
 	peiramide();
@@ -90,26 +97,25 @@ public:
 bool peiramide::Solve(){
 	bool b=true;
 	int a;
-	/*if(n<6)
-	return false;*/
+	if(n<6)
+	return false;
 	while(b){
 		b=false;
 		for (size_t i = 0; i < 15; ++i) {
 			a=tabla[i]->CanSolve();
 			if(a==2)
-				break;
+				return false;
 			if(a==1)
 				b=b|true;
 		}
-		if(a==2)
-			break;
 	}
-	if(a==2)
-		cout<<"Cannot be solved";
-	else{
+	for (size_t i = 0; i<21; ++i) {
+		if(!tabla[i]->MVal())
+		return false;
+	}
 		mostrar();
 		return true;
-	}
+
 }
 peiramide::peiramide(){
         int casilla;

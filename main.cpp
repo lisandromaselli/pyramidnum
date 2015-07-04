@@ -1,7 +1,7 @@
 #include <iostream>
-#include <cstring>
 #include <sstream>
 #include <cmath>
+#include <cstdlib>
 using namespace std;
 class celda {
 private:
@@ -87,6 +87,8 @@ private:
 			cout<<endl<<"valor del casillero "<<cas<<": ";
 			cin>>val;
 			tabla[cas]->setVal(val);
+			system("cls");
+			mostrar();
 		}
 	}
 public:
@@ -113,7 +115,6 @@ bool peiramide::Solve(){
 		if(!tabla[i]->MVal())
 		return false;
 	}
-		mostrar();
 		return true;
 
 }
@@ -158,6 +159,9 @@ void peiramide::mostrar(){
 }
 int main() {
 	peiramide c;
+	system("cls");
 	if(!c.Solve())
 	cout<<"Cannot be Solved";
+	else
+	c.mostrar();
 }

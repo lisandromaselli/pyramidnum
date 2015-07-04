@@ -14,11 +14,11 @@ public:
 	void setI(celda *i){
 		izq=i;
 	}
-	celda HijoD(celda *d){
-		return *der;
+	celda* HijoD(){
+		return der;
 	}
-	celda HijoI(celda *i){
-		return *izq;
+	celda* HijoI(){
+		return izq;
 	}
 	void setVal(int val){
 		valor=val;
@@ -52,12 +52,15 @@ public:
 };
 
 peiramide::peiramide(){
+        int casilla;
 	for (size_t i = 0; i < 21; i++) {
 		tabla[i]=new celda();
 	}
-	for (int i = 0; i <= 15; ++i)
+	for (int i = 1; i <= 16; ++i)
 	{
-		tabla[i]->setD(tabla[i+log(2,i)+i]);
+                casilla=i+log2(i+1)+1;
+		tabla[i-1]->setI(tabla[casilla]-1);
+                tabla[i-1]->setD(tabla[casilla]);
 	}
 	ingresarDatos();
 }
@@ -85,6 +88,6 @@ void peiramide::mostrar(){
 }
 int main() {
 	peiramide c;
-	c.mostrar();
+        c.mostrar();
 	return 0;
 }

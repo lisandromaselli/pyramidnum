@@ -79,6 +79,7 @@ private:
 	int n;
 	void ingresarDatos() {
 		int cas,val;
+                system("cls");
 		cout<<"cantidad de datos a ingresar: ";
 		cin>>n;
 		for (size_t i = 0; i < n; ++i) {
@@ -125,11 +126,12 @@ peiramide::peiramide(){
 	}
 	for (int i = 1; i <= 15; ++i)
 	{
+                if(i<7)
+                casilla=i+log2(i)+1;
+                else
                 casilla=i+rint(log2(i))+1;
-		if(i==11)
-		casilla++;
-		if(i==3 || i==6)
-		casilla--;
+                if(i==11)
+                casilla++;
 		tabla[i-1]->setI(tabla[casilla-1]);
                 tabla[i-1]->setD(tabla[casilla]);
 	}
